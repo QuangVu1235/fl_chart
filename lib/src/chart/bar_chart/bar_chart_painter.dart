@@ -193,7 +193,7 @@ class BarChartPainter extends AxisChartPainter<BarChartData> with TouchHandler<B
       final barGroup = data.barGroups[i];
       for (var j = 0; j < barGroup.barRods.length; j++) {
         final barRod = barGroup.barRods[j];
-        final widthHalf = barRod.width + 1;
+        final widthHalf = barRod.width + 5;
         final borderRadius = BorderRadius.only(topLeft: Radius.circular(5), topRight: Radius.circular(5));
 
         final x = groupBarsPosition[i].barsX[j];
@@ -419,7 +419,8 @@ class BarChartPainter extends AxisChartPainter<BarChartData> with TouchHandler<B
 
           final text = leftTitles.getTitles(verticalSeek);
 
-          final span = TextSpan(style: leftTitles.getTextStyles(verticalSeek), text: text);
+          // final span = TextSpan(style: leftTitles.getTextStyles(verticalSeek), text: text);
+          final span = TextSpan(style: TextStyle(fontSize: 15), text: text);
           final tp = TextPainter(
               text: span, textAlign: TextAlign.center, textDirection: TextDirection.ltr, textScaleFactor: textScale);
           tp.layout(maxWidth: getExtraNeededHorizontalSpace());
@@ -475,22 +476,26 @@ class BarChartPainter extends AxisChartPainter<BarChartData> with TouchHandler<B
       while (verticalSeek <= data.maxY) {
         if (verticalSeek == data.maxY || verticalSeek == data.maxY / 2 || verticalSeek == 0) {
           if (rightTitles.checkToShowTitle(data.minY, data.maxY, rightTitles, rightInterval, verticalSeek)) {
+            // var x = drawSize.width + getLeftOffsetDrawSize();
             var x = drawSize.width + getLeftOffsetDrawSize();
             var y = getPixelY(verticalSeek, drawSize);
 
             final text = rightTitles.getTitles(verticalSeek);
 
-            final span = TextSpan(style: rightTitles.getTextStyles(verticalSeek), text: text);
+            // final span = TextSpan(style: rightTitles.getTextStyles(verticalSeek), text: text);
+            final span = TextSpan(style: TextStyle(fontSize: 12,color: Colors.black26), text: '20,000');
             final tp = TextPainter(
                 text: span, textAlign: TextAlign.center, textDirection: TextDirection.ltr, textScaleFactor: textScale);
             tp.layout(maxWidth: getExtraNeededHorizontalSpace());
             x += rightTitles.margin;
             y -= tp.height / 2;
+
             canvasWrapper.save();
             canvasWrapper.translate(x + tp.width / 2, y + tp.height / 2);
             canvasWrapper.rotate(radians(rightTitles.rotateAngle));
-            canvasWrapper.translate(-(x + tp.width / 2), -(y + tp.height / 2));
+            canvasWrapper.translate(-(x + tp.width), -(y + tp.height / 2));
             y += translateRotatedPosition(tp.width, leftTitles.rotateAngle);
+
             canvasWrapper.drawText(tp, Offset(x, y));
             canvasWrapper.restore();
           }
@@ -532,14 +537,14 @@ class BarChartPainter extends AxisChartPainter<BarChartData> with TouchHandler<B
   }
 
   void _drawTouchTooltip(
-    CanvasWrapper canvasWrapper,
-    List<_GroupBarsPosition> groupPositions,
-    BarTouchTooltipData tooltipData,
-    BarChartGroupData showOnBarGroup,
-    int barGroupIndex,
-    BarChartRodData showOnRodData,
-    int barRodIndex,
-  ) {
+      CanvasWrapper canvasWrapper,
+      List<_GroupBarsPosition> groupPositions,
+      BarTouchTooltipData tooltipData,
+      BarChartGroupData showOnBarGroup,
+      int barGroupIndex,
+      BarChartRodData showOnRodData,
+      int barRodIndex,
+      ) {
     final viewSize = canvasWrapper.size;
     final chartUsableSize = getChartUsableDrawSize(viewSize);
 
@@ -640,7 +645,7 @@ class BarChartPainter extends AxisChartPainter<BarChartData> with TouchHandler<B
 
     final radius = Radius.circular(tooltipData.tooltipRoundedRadius);
     final roundedRect =
-        RRect.fromRectAndCorners(rect, topLeft: radius, topRight: radius, bottomLeft: radius, bottomRight: radius);
+    RRect.fromRectAndCorners(rect, topLeft: radius, topRight: radius, bottomLeft: radius, bottomRight: radius);
     _bgTouchTooltipPaint.color = tooltipData.tooltipBgColor;
     canvasWrapper.drawRRect(roundedRect, _bgTouchTooltipPaint);
 
