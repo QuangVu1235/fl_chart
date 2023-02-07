@@ -7,9 +7,8 @@ class BarChartSample4 extends StatefulWidget {
 }
 
 class BarChartSample4State extends State<BarChartSample4> {
-  final Color dark = const Color(0xff3b8c75);
-  final Color normal = const Color(0xff64caad);
-  final Color light = const Color(0xff73e8c9);
+  final Color dark = const Color(0xff6ac434);
+  final Color light = const Color(0x996ac434);
 
   @override
   Widget build(BuildContext context) {
@@ -20,12 +19,13 @@ class BarChartSample4State extends State<BarChartSample4> {
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6)),
         color: Colors.white,
         child: Padding(
-          padding: const EdgeInsets.only(top: 20.0),
+          padding: const EdgeInsets.only(top: 20),
           child: BarChart(
             BarChartData(
               alignment: BarChartAlignment.spaceEvenly,
               barTouchData: BarTouchData(
                 enabled: true,
+
               ),
               titlesData: FlTitlesData(
                 show: true,
@@ -111,78 +111,12 @@ class BarChartSample4State extends State<BarChartSample4> {
         ],
       ),
       BarChartGroupData(
-        x: 1,
-        barsSpace: 4,
-        barRods: [
-          BarChartRodData(
-              y: 2000,
-              colors: [ Colors.greenAccent, Colors.green],
-              gradientFrom: Offset(0,1),
-              borderRadius: const BorderRadius.all(Radius.zero)),
-        ],
-      ),
-      BarChartGroupData(
-        x: 1,
-        barsSpace: 4,
-        barRods: [
-          BarChartRodData(
-              y: 2000,
-              colors: [ Colors.greenAccent, Colors.green],
-              gradientFrom: Offset(0,1),
-              borderRadius: const BorderRadius.all(Radius.zero)),
-        ],
-      ),
-      BarChartGroupData(
-        x: 1,
-        barsSpace: 4,
-        barRods: [
-          BarChartRodData(
-              y: 2000,
-              colors: [ Colors.greenAccent, Colors.green],
-              gradientFrom: Offset(0,1),
-              borderRadius: const BorderRadius.all(Radius.zero)),
-        ],
-      ),
-      BarChartGroupData(
-        x: 1,
-        barsSpace: 4,
-        barRods: [
-          BarChartRodData(
-              y: 2000,
-              colors: [ Colors.greenAccent, Colors.green],
-              gradientFrom: Offset(0,1),
-              borderRadius: const BorderRadius.all(Radius.zero)),
-        ],
-      ),
-      BarChartGroupData(
-        x: 1,
-        barsSpace: 4,
-        barRods: [
-          BarChartRodData(
-              y: 2000,
-              colors: [ Colors.greenAccent, Colors.green],
-              gradientFrom: Offset(0,1),
-              borderRadius: const BorderRadius.all(Radius.zero)),
-        ],
-      ),
-      BarChartGroupData(
-        x: 1,
-        barsSpace: 4,
-        barRods: [
-          BarChartRodData(
-              y: 2000,
-              colors: [ Colors.greenAccent, Colors.green],
-              gradientFrom: Offset(0,1),
-              borderRadius: const BorderRadius.all(Radius.zero)),
-        ],
-      ),
-      BarChartGroupData(
         x: 2,
         barsSpace: 4,
         barRods: [
           BarChartRodData(
               y: 3000,
-              colors: [ Colors.greenAccent, Colors.green],
+              colors: [ dark, light],
               gradientFrom: Offset(0,1),
               borderRadius: const BorderRadius.all(Radius.zero)),
         ],

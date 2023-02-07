@@ -10,7 +10,7 @@ class LineChartPage4 extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.white,
       body: ListView(
-        padding: const EdgeInsets.all(24),
+        padding: const EdgeInsets.all(0),
         children: <Widget>[
           BarChartSample4(),
         ],
