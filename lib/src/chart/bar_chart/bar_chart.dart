@@ -141,7 +141,7 @@ class _BarChartState extends AnimatedWidgetBaseState<BarChart> {
               child: LayoutBuilder(builder: (context, constraints) {
                 return SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
-                  physics: _getData().barGroups.length == 7 ? NeverScrollableScrollPhysics() : null,
+                  physics: _getData().barGroups.length <= 7 ? NeverScrollableScrollPhysics() : null,
                   child: Container(
                     decoration: BoxDecoration(
                         // border: Border(top: BorderSide()),
