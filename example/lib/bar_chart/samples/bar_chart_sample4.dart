@@ -13,7 +13,7 @@ class BarChartSample4State extends State<BarChartSample4> {
   @override
   Widget build(BuildContext context) {
     return AspectRatio(
-      aspectRatio: 1.5,
+      aspectRatio: 1.3,
       child: Card(
         elevation: 0,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6)),
@@ -25,7 +25,6 @@ class BarChartSample4State extends State<BarChartSample4> {
               alignment: BarChartAlignment.spaceEvenly,
               barTouchData: BarTouchData(
                 enabled: true,
-
               ),
               titlesData: FlTitlesData(
                 show: true,
@@ -33,31 +32,55 @@ class BarChartSample4State extends State<BarChartSample4> {
                   showTitles: true,
                   getTextStyles: (value) => const TextStyle(color: Color(0xff939393), fontSize: 10),
                   margin: 10,
-                  getTitles: (double value) {
-                    switch (value.toInt()) {
-                      case 0:
-                        return '日';
-                      case 1:
-                        return '月';
-                      case 2:
-                        return '火';
-                      case 3:
-                        return '水';
-                      case 4:
-                        return '木';
-                      case 5:
-                        return '金';
-                      case 6:
-                        return '土';
-                      default:
-                        return '';
-                    }
-                  },
+                  // getTitles: (double value) {
+                  //   switch (value.toInt()) {
+                  //     case 0:
+                  //       return '日';
+                  //     case 1:
+                  //       return '月';
+                  //     case 2:
+                  //       return '火';
+                  //     case 3:
+                  //       return '水';
+                  //     case 4:
+                  //       return '木';
+                  //     case 5:
+                  //       return '金';
+                  //     case 6:
+                  //       return '土';
+                  //     default:
+                  //       return '';
+                  //   }
+                  // },
+                ),
+                topTitles: SideTitles(
+                  showTitles: true,
+                  getTextStyles: (value) => const TextStyle(color: Color(0xff939393), fontSize: 10),
+                  margin: 10,
+                  // getTitles: (double value) {
+                  //   switch (value.toInt()) {
+                  //     case 0:
+                  //       return '日';
+                  //     case 1:
+                  //       return '月';
+                  //     case 2:
+                  //       return '火';
+                  //     case 3:
+                  //       return '水';
+                  //     case 4:
+                  //       return '木';
+                  //     case 5:
+                  //       return '金';
+                  //     case 6:
+                  //       return '土';
+                  //     default:
+                  //       return '';
+                  //   }
+                  // },
                 ),
                 leftTitles: SideTitles(
                   showTitles: false,
-                  getTextStyles: (value) =>
-                  const TextStyle(
+                  getTextStyles: (value) => const TextStyle(
                       color: Color(
                         0xff939393,
                       ),
@@ -65,30 +88,27 @@ class BarChartSample4State extends State<BarChartSample4> {
                   margin: 0,
                 ),
                 rightTitles: SideTitles(
-                  showTitles: true,
-                  getTextStyles: (value) =>
-                  const TextStyle(
-                      color: Color(
-                        0xff939393,
-                      ),
-                      fontSize: 10)
-                ),
+                    showTitles: false,
+                    getTextStyles: (value) => const TextStyle(
+                        color: Color(
+                          0xff939393,
+                        ),
+                        fontSize: 10)),
               ),
               gridData: FlGridData(
                 show: false,
                 drawVerticalLine: false,
                 checkToShowHorizontalLine: (value) => value % 30 == 0,
-                getDrawingHorizontalLine: (value) =>
-                    FlLine(
-                      color: const Color(0xffe7e8ec),
-                      strokeWidth: 1,
-                    ),
+                getDrawingHorizontalLine: (value) => FlLine(
+                  color: const Color(0xffe7e8ec),
+                  strokeWidth: 1,
+                ),
               ),
               borderData: FlBorderData(
                 show: false,
               ),
               groupsSpace: 10,
-              barGroups: getData(),
+              barGroups: getData(MediaQuery.of(context).size.width * 0.04),
               isShowDash: true,
             ),
           ),
@@ -97,74 +117,19 @@ class BarChartSample4State extends State<BarChartSample4> {
     );
   }
 
-  List<BarChartGroupData> getData() {
-    return [
-      BarChartGroupData(
-        x: 1,
-        barsSpace: 4,
-        barRods: [
-          BarChartRodData(
-              y: 2000,
-              colors: [ Colors.greenAccent, Colors.green],
-              gradientFrom: Offset(0,1),
-              borderRadius: const BorderRadius.all(Radius.zero)),
-        ],
-      ),
-      BarChartGroupData(
-        x: 2,
-        barsSpace: 4,
-        barRods: [
-          BarChartRodData(
-              y: 3000,
-              colors: [ dark, light],
-              gradientFrom: Offset(0,1),
-              borderRadius: const BorderRadius.all(Radius.zero)),
-        ],
-      ),
-      BarChartGroupData(
-        x: 3,
-        barsSpace: 4,
-        barRods: [
-          BarChartRodData(
-              y: 6000,
-              colors: [ Colors.greenAccent, Colors.green],
-              gradientFrom: Offset(0,1),
-              borderRadius: const BorderRadius.all(Radius.zero)),
-        ],
-      ),
-      BarChartGroupData(
-        x: 4,
-        barsSpace: 4,
-        barRods: [
-          BarChartRodData(
-              y: 5000,
-              colors: [ Colors.greenAccent, Colors.green],
-              gradientFrom: Offset(0,1),
-              borderRadius: const BorderRadius.all(Radius.zero)),
-        ],
-      ),
-      BarChartGroupData(
-        x: 5,
-        barsSpace: 4,
-        barRods: [
-          BarChartRodData(
-              y: 6000,
-              colors: [ Colors.greenAccent, Colors.green],
-              gradientFrom: Offset(0,1),
-              borderRadius: const BorderRadius.all(Radius.zero)),
-        ],
-      ),
-      BarChartGroupData(
-        x: 6,
-        barsSpace: 4,
-        barRods: [
-          BarChartRodData(
-              y: 7000,
-              colors: [ Colors.greenAccent, Colors.green],
-              gradientFrom: Offset(0,1),
-              borderRadius: const BorderRadius.all(Radius.zero)),
-        ],
-      ),
-    ];
+  List<BarChartGroupData> getData(double context) {
+    return List.generate(
+        7,
+        (index) => BarChartGroupData(
+              x: index,
+              barRods: [
+                BarChartRodData(
+                    y: (1000 + index * 200).toDouble(),
+                    width: context,
+                    colors: [Colors.greenAccent, Colors.green],
+                    gradientFrom: Offset(0, 1),
+                    borderRadius: const BorderRadius.all(Radius.zero)),
+              ],
+            ));
   }
 }

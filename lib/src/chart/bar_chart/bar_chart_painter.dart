@@ -52,9 +52,9 @@ class BarChartPainter extends AxisChartPainter<BarChartData> with TouchHandler<B
 
     final groupsX = _calculateGroupsX(size, data.barGroups, data.alignment);
     _groupBarsPosition = _calculateGroupAndBarsPosition(size, groupsX, data.barGroups);
-    _drawDash(canvasWrapper, _groupBarsPosition!);
     _drawBars(canvasWrapper, _groupBarsPosition!);
-    drawAxisTitles(canvasWrapper);
+    _drawDash(canvasWrapper, _groupBarsPosition!);
+
     _drawTitles(canvasWrapper, _groupBarsPosition!);
 
     for (var i = 0; i < targetData.barGroups.length; i++) {
@@ -145,15 +145,19 @@ class BarChartPainter extends AxisChartPainter<BarChartData> with TouchHandler<B
 
       case BarChartAlignment.spaceEvenly:
         final sumWidth = barGroups.map((group) => group.width).reduce((a, b) => a + b);
-        final spaceAvailable = drawSize.width - sumWidth;
+        final spaceAvailable = viewSize.width - sumWidth;
         final eachSpace = spaceAvailable / (barGroups.length + 1);
 
         var tempX = 0.0;
         barGroups.asMap().forEach((i, group) {
-          tempX += eachSpace;
-          tempX += group.width / 2;
+          tempX += 2 * group.width;
           groupsX[i] = leftTextsSpace + tempX;
-          tempX += group.width / 2;
+          tempX += group.width;
+
+          // tempX += eachSpace;
+          // tempX += group.width / 2;
+          // groupsX[i] = leftTextsSpace + tempX;
+          // tempX += group.width;
         });
         break;
     }
@@ -193,11 +197,7 @@ class BarChartPainter extends AxisChartPainter<BarChartData> with TouchHandler<B
       final barGroup = data.barGroups[i];
       for (var j = 0; j < barGroup.barRods.length; j++) {
         final barRod = barGroup.barRods[j];
-        if (data.barGroups.length == 12) {
-          widthHalf = barRod.width + 3;
-        } else {
-          widthHalf = barRod.width + 5;
-        }
+        widthHalf = barRod.width;
 
         final borderRadius = BorderRadius.only(topLeft: Radius.circular(5), topRight: Radius.circular(5));
 
@@ -325,10 +325,9 @@ class BarChartPainter extends AxisChartPainter<BarChartData> with TouchHandler<B
     final viewSize = canvasWrapper.size;
 
     var x0 = groupBarsPosition[0].barsX[0];
-    var widthHalf0 = data.barGroups[0].barRods[0].width + 1;
+    var widthHalf0 = data.barGroups[0].barRods[0].width;
 
     var dashXFinal = 0.0;
-    var paddingTop = -16.0;
     var dashLength = 4.0;
 
     var paint = Paint()
@@ -342,26 +341,14 @@ class BarChartPainter extends AxisChartPainter<BarChartData> with TouchHandler<B
       final barGroup = data.barGroups[i];
       for (var j = 0; j < barGroup.barRods.length; j++) {
         final barRod = barGroup.barRods[j];
-        final widthHalf = barRod.width + 1;
+        final widthHalf = barRod.width;
 
         final x = groupBarsPosition[i].barsX[j];
         final left = x - widthHalf;
 
         var dashHeight = viewSize.height;
         var dashX = 0.0;
-        if (data.barGroups.length < 7) {
-          dashX = left - x0 / 3;
-        } else if (data.barGroups.length < 12) {
-          dashX = left - x0 / 4;
-        } else {
-          dashX = left - x0 / 5;
-        }
-
-        dashPath.moveTo(dashX, paddingTop);
-        for (var i = 1; dashLength * i <= 16; i++) {
-          dashPath.lineTo(dashX, (i * dashLength) + paddingTop);
-          dashPath.moveTo(dashX, dashLength * ++i + paddingTop);
-        }
+        dashX = left - x0 / 4;
         dashPath.moveTo(dashX, 0);
         for (var i = 1; dashLength * i <= dashHeight; i++) {
           dashPath.lineTo(dashX, (i * dashLength));
@@ -374,19 +361,12 @@ class BarChartPainter extends AxisChartPainter<BarChartData> with TouchHandler<B
       }
     }
 
-    dashPath.moveTo(dashXFinal, 0);
+    dashPath.moveTo(dashXFinal + widthHalf0 / 2, 0);
     for (var i = 1; dashLength * i <= viewSize.height; i++) {
-      dashPath.lineTo(dashXFinal, (i * dashLength));
-      dashPath.moveTo(dashXFinal, dashLength * ++i);
-    }
-
-    dashPath.moveTo(dashXFinal, paddingTop);
-    for (var i = 1; dashLength * i <= 16; i++) {
-      dashPath.lineTo(dashXFinal, (i * dashLength) + paddingTop);
-      dashPath.moveTo(dashXFinal, dashLength * ++i + paddingTop);
+      dashPath.lineTo(dashXFinal + widthHalf0 / 2, (i * dashLength));
+      dashPath.moveTo(dashXFinal + widthHalf0 / 2, dashLength * ++i);
     }
     canvasWrapper.drawPath(dashPath, paint);
-
 
     var paintLine = Paint()
       ..color = Colors.grey.withOpacity(0.6)
@@ -407,23 +387,22 @@ class BarChartPainter extends AxisChartPainter<BarChartData> with TouchHandler<B
     } else {
       dashX0 = left - x0 / 5;
     }
-    linePath.moveTo(dashX0, paddingTop);
-    linePath.lineTo(dashWidth - (dashWidth - dashXFinal), paddingTop);
-    canvasWrapper.drawPath(linePath, paintLine);
-
 
     final drawSize = getChartUsableDrawSize(viewSize);
 
     //line bottom
     var y = getPixelY(0, drawSize);
     linePath.moveTo(dashX0, y);
-    linePath.lineTo(dashWidth - (dashWidth - dashXFinal), y);
+    linePath.lineTo(dashWidth - (dashWidth - dashXFinal - widthHalf0 / 2), y);
     canvasWrapper.drawPath(linePath, paintLine);
-
+    //line top
+    linePath.moveTo(dashX0, 0);
+    linePath.lineTo(dashWidth - (dashWidth - dashXFinal - widthHalf0 / 2), 0);
+    canvasWrapper.drawPath(linePath, paintLine);
     //line mid
     var yHalf = getPixelY(data.maxY / 2, drawSize);
     linePath.moveTo(dashX0, yHalf);
-    linePath.lineTo(dashWidth - (dashWidth - dashXFinal), yHalf);
+    linePath.lineTo(dashWidth - (dashWidth - dashXFinal - widthHalf0 / 2), yHalf);
     canvasWrapper.drawPath(linePath, paintLine);
   }
 
@@ -477,7 +456,7 @@ class BarChartPainter extends AxisChartPainter<BarChartData> with TouchHandler<B
 
         final xValue = data.barGroups[index].x.toDouble();
         final text = topTitles.getTitles(xValue);
-        final span = TextSpan(style: topTitles.getTextStyles(xValue), text: text);
+        final span = TextSpan(style: topTitles.getTextStyles(xValue), text: '');
         final tp = TextPainter(
             text: span, textAlign: TextAlign.center, textDirection: TextDirection.ltr, textScaleFactor: textScale);
         tp.layout();

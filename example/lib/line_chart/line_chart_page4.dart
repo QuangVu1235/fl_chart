@@ -8,13 +8,9 @@ class LineChartPage4 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
-      body: ListView(
-        padding: const EdgeInsets.all(0),
-        children: <Widget>[
-          BarChartSample4(),
-        ],
-      ),
-    );
+        backgroundColor: Colors.white,
+        body: Center(
+          child: BarChartSample4(),
+        ));
   }
 }
