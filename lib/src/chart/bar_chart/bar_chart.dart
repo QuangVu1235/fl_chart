@@ -173,7 +173,7 @@ class _BarChartState extends AnimatedWidgetBaseState<BarChart> {
         Container(
           width: 50,
           child: CustomPaint(
-            size: getDefaultSize(Size(size.width, size.height)),
+            size: getDefaultSize(Size(double.infinity, size.height )),
             painter: TitleRightPainter(
               _withTouchedIndicators(_barChartDataTween!.evaluate(animation)),
               _withTouchedIndicators(showingData),
