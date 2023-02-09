@@ -15,7 +15,7 @@ class BarChartSample4State extends State<BarChartSample4> {
   @override
   Widget build(BuildContext context) {
     return AspectRatio(
-      aspectRatio: 1.3,
+      aspectRatio: 1,
       child: Card(
         elevation: 0,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6)),
@@ -111,7 +111,7 @@ class BarChartSample4State extends State<BarChartSample4> {
                   margin: 0,
                 ),
                 rightTitles: SideTitles(
-                    showTitles: false,
+                    showTitles: true,
                     getTitles: (double value) {
                       return value.toString();
                     },
@@ -138,12 +138,12 @@ class BarChartSample4State extends State<BarChartSample4> {
     int touchedIndex,
   ) {
     return List.generate(
-        12,
+        10,
         (index) => BarChartGroupData(
               x: index,
               barRods: [
                 BarChartRodData(
-                    y: (10000 + index * 2000).toDouble(),
+                    y: (10000 + index * 219.100).toDouble(),
                     width: context,
                     colors: index == touchedIndex ? [Colors.red, Colors.amber] : [Colors.greenAccent, Colors.green],
                     gradientFrom: Offset(0, 1),
