@@ -49,9 +49,9 @@ class TitleRightPainter extends AxisChartPainter<BarChartData> {
 
         final text = rightTitles.getTitles(verticalSeek);
 
-        // final span = TextSpan(style: rightTitles.getTextStyles(verticalSeek), text: text);
-        final span =
-            TextSpan(style: TextStyle(fontSize: 12, color: Colors.black26, fontWeight: FontWeight.bold), text: text);
+        final span = TextSpan(style: rightTitles.getTextStyles(verticalSeek), text: text);
+        // final span =
+        //     TextSpan(style: TextStyle(fontSize: 12, color: Colors.black26, fontWeight: FontWeight.bold), text: '20,000');
         final tp = TextPainter(
             text: span, textAlign: TextAlign.center, textDirection: TextDirection.ltr, textScaleFactor: textScale);
         tp.layout(maxWidth: viewSize.width);

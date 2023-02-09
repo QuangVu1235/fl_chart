@@ -54,7 +54,6 @@ class BarChartPainter extends AxisChartPainter<BarChartData> with TouchHandler<B
     _groupBarsPosition = _calculateGroupAndBarsPosition(size, groupsX, data.barGroups);
     _drawBars(canvasWrapper, _groupBarsPosition!);
     _drawDash(canvasWrapper, _groupBarsPosition!);
-
     _drawTitles(canvasWrapper, _groupBarsPosition!);
 
     for (var i = 0; i < targetData.barGroups.length; i++) {
@@ -64,9 +63,21 @@ class BarChartPainter extends AxisChartPainter<BarChartData> with TouchHandler<B
           continue;
         }
         final barRod = barGroup.barRods[j];
+        final widthBarRod = barGroup.barRods[j].width;
 
         _drawTouchTooltip(
-            canvasWrapper, _groupBarsPosition!, targetData.barTouchData.touchTooltipData, barGroup, i, barRod, j);
+            canvasWrapper,
+            _groupBarsPosition!,
+            targetData.barTouchData.touchTooltipData,
+            barGroup,
+            i,
+            barRod,
+            j,
+            i == 0
+                ? widthBarRod / 2
+                : i == targetData.barGroups.length - 1
+                    ? -widthBarRod
+                    : 0);
       }
     }
   }
@@ -544,14 +555,14 @@ class BarChartPainter extends AxisChartPainter<BarChartData> with TouchHandler<B
   }
 
   void _drawTouchTooltip(
-    CanvasWrapper canvasWrapper,
-    List<_GroupBarsPosition> groupPositions,
-    BarTouchTooltipData tooltipData,
-    BarChartGroupData showOnBarGroup,
-    int barGroupIndex,
-    BarChartRodData showOnRodData,
-    int barRodIndex,
-  ) {
+      CanvasWrapper canvasWrapper,
+      List<_GroupBarsPosition> groupPositions,
+      BarTouchTooltipData tooltipData,
+      BarChartGroupData showOnBarGroup,
+      int barGroupIndex,
+      BarChartRodData showOnRodData,
+      int barRodIndex,
+      double margin) {
     final viewSize = canvasWrapper.size;
     final chartUsableSize = getChartUsableDrawSize(viewSize);
 
@@ -654,13 +665,13 @@ class BarChartPainter extends AxisChartPainter<BarChartData> with TouchHandler<B
     final roundedRect =
         RRect.fromRectAndCorners(rect, topLeft: radius, topRight: radius, bottomLeft: radius, bottomRight: radius);
     _bgTouchTooltipPaint.color = tooltipData.tooltipBgColor;
-    canvasWrapper.drawRRect(roundedRect, _bgTouchTooltipPaint);
+    // canvasWrapper.drawRRect(roundedRect, _bgTouchTooltipPaint);
 
     /// draw the texts one by one in below of each other
     final top = tooltipData.tooltipPadding.top;
     final drawOffset = Offset(
-      rect.center.dx - (tp.width / 2),
-      rect.topCenter.dy + top,
+      rect.center.dx - (tp.width / 2) + margin,
+      rect.topCenter.dy + top + 20,
     );
     canvasWrapper.drawText(tp, drawOffset);
   }
